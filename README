@@ -1,0 +1,91 @@
+SETUP
+=====
+
+Create the database tables used in this plugin, replacing the 'modx_' prefix with
+the prefix that you are currently using:
+
+CREATE TABLE `rev_site_content` LIKE `modx_site_content`;
+
+ALTER TABLE rev_site_content CHANGE `id` `id` INT(10) DEFAULT NULL;
+
+ALTER TABLE rev_site_content DROP PRIMARY KEY;
+
+CREATE TABLE rev_site_tmplvar_contentvalues LIKE modx_site_tmplvar_contentvalues;
+
+ALTER TABLE rev_site_tmplvar_contentvalues MODIFY id INT(10) DEFAULT NULL;
+
+ALTER TABLE rev_site_tmplvar_contentvalues DROP PRIMARY KEY;
+
+CREATE TABLE rev_site_modules LIKE modx_site_modules;
+
+ALTER TABLE `rev_site_modules` CHANGE `id` `id` INT( 11 ) NOT NULL;
+
+ALTER TABLE `rev_site_modules` CHANGE `createdon` `createdon` INT( 20 ) NOT NULL DEFAULT '0';
+
+ALTER TABLE `rev_site_modules` CHANGE `editedon` `editedon` INT( 20 ) NOT NULL DEFAULT '0';
+
+ALTER TABLE rev_site_modules DROP PRIMARY KEY;
+
+CREATE TABLE rev_site_htmlsnippets LIKE modx_site_htmlsnippets;
+
+ALTER TABLE `rev_site_htmlsnippets` CHANGE `id` `id` INT( 11 ) NOT NULL;
+
+ALTER TABLE `rev_site_htmlsnippets` DROP PRIMARY KEY;
+
+CREATE TABLE rev_site_plugins LIKE modx_site_plugins;
+
+ALTER TABLE `rev_site_plugins` CHANGE `id` `id` INT( 11 ) NOT NULL;
+
+ALTER TABLE `rev_site_plugins` DROP PRIMARY KEY;
+
+CREATE TABLE rev_site_snippets LIKE modx_site_snippets;
+
+ALTER TABLE `rev_site_snippets` CHANGE `id` `id` INT( 11 ) NOT NULL;
+
+ALTER TABLE `rev_site_snippets` DROP PRIMARY KEY;
+
+CREATE TABLE rev_site_templates LIKE modx_site_templates;
+
+ALTER TABLE `rev_site_templates` CHANGE `id` `id` INT( 11 ) NOT NULL;
+
+ALTER TABLE `rev_site_templates` DROP PRIMARY KEY;
+
+CREATE TABLE `rev_site_tmplvars` LIKE `modx_site_tmplvars`;
+
+ALTER TABLE `rev_site_tmplvars` CHANGE `id` `id` INT( 11 ) NOT NULL;
+
+ALTER TABLE `rev_site_tmplvars` DROP PRIMARY KEY;
+
+Create a new plugin through the manager and then copy and paste the contents of
+the revision.php file. DO NOT include the <?php tags. The plugin must run from
+the database or else it will not pick up the On*FormRender event.
+
+Create the following directory and place the revision.php file along with a
+.htaccess file for security reasons.
+
+/assets/plugins/revision
+
+Under the Configuration tab:
+
+Existing Category: Content
+Plugin configuration:
+&revPermissions=Permissions (Comma separated list of user ids);string;1,2
+
+You may change or add more than one user id by separating them by commas.
+
+Under the System Events tab:
+
+Select the following events:
+
+- OnChunkFormRender
+- OnBeforeChunkFormSave
+- OnDocFormRender
+- OnBeforeDocFormSave
+- OnModFormRender
+- OnBeforeModFormSave
+- OnPluginFormRender
+- OnBeforePluginFormSave
+- OnSnipFormRender
+- OnBeforeSnipFormSave
+- OnTempFormRender
+- OnBeforeTempFormSave

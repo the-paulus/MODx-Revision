@@ -1,0 +1,4 @@
+RewriteEngine On
+
+RewriteCond %{REMOTE_HOST} !^10\.0\.4\.14
+RewriteRule ^(.*)$ http://www.mpm.edu? [R=301,L]
