@@ -20,6 +20,8 @@ $rev_action = addslashes($_REQUEST['rev_action']);
 $rev_type = addslashes($_REQUEST['type']);
 $editedon = addslashes($_REQUEST['editedon']);
 
+if($id == '' || empty($id)) return;
+
 if (!(function_exists('createRevision'))) {
 
      function createRevision($id, $type) {
@@ -68,7 +70,7 @@ if (!(function_exists('createRevisionTab'))) {
      function createRevisionTab($type, &$event, $id) {
           global $modx;
           // Create a tab to be displayed for revisions.
-          $html = '<div class="tab-page" id="tabRevision"><h2 class="tab">Revisions</h2><table><thead><tr><td><strong>Revision ID</strong</td><td><strong>Changed By</strong></td><td><strong>Changed On</strong></td><td><strong>View</strong></td><td><strong>Revert</strong></td></tr></thead><tbody>';
+          $html = '<div class="tab-page" id="tabRevision"><h2 class="tab">Revisions</h2><table><thead><tr><td><strong>Revision ID</strong</td><td><strong>Previously Changed By</strong></td><td><strong>Previously Changed On</strong></td><td><strong>View</strong></td><td><strong>Revert</strong></td></tr></thead><tbody>';
 
           switch ($type) {
                case DOCUMENT:
@@ -111,7 +113,7 @@ if (!(function_exists('createRevisionTab'))) {
                case CHUNK:
                case TEMPLATE:
                     $query = "SELECT * FROM rev_" . $type;
-                    $js = ' <script type="text/javascript">document.getElementById("modulePane").appendChild(document.getElementById("tabRevision")); tpModule.addTabPage( document.getElementById( "tabRevision" ) );</script>';
+                    $js = ' <script type="text/javascript">if(document.getElementById("modulePane") != null) document.getElementById("modulePane").appendChild(document.getElementById("tabRevision")); tpModule.addTabPage( document.getElementById( "tabRevision" ) );</script>';
 
                     $rs = $modx->db->query($query);
                     if (!($rs)) {
